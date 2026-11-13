@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#251f18">
+  <meta name="description" content="Miels artisanaux du Rucher de la Louve Noire, en pots de 500 g.">
+  <title>Boutique | Rucher de la Louve Noire</title>
+  <style>
+    :root { color-scheme: light; --ink:#251f18; --amber:#b77e20; --cream:#f8f3e9; --paper:#fffdfa; --muted:#665f54; --line:#e6dbca; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--cream); color:var(--ink); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    header { background:var(--ink); color:#fff8e9; padding:2.2rem 1rem; text-align:center; }
+    .eyebrow { color:#e5be74; text-transform:uppercase; letter-spacing:.18em; font-size:.75rem; font-weight:700; }
+    h1 { margin:.35rem 0 .3rem; font:clamp(1.8rem,4vw,3rem)/1.15 Georgia,serif; }
+    header p { margin:.5rem auto 0; max-width:45rem; color:#eadcc5; }
+    main { width:min(1100px,calc(100% - 2rem)); margin:2rem auto 3rem; display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:1.5rem; align-items:start; }
+    h2 { font:1.6rem Georgia,serif; margin:0 0 1rem; }
+    .products { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+    .product,.cart { background:var(--paper); border:1px solid var(--line); border-radius:16px; box-shadow:0 4px 16px #251f1809; }
+    .product { padding:1.25rem; }
+    .illustration { height:95px; display:grid; place-items:center; margin-bottom:.75rem; background:linear-gradient(145deg,#fbefd0,#f3d99d); border-radius:12px; }
+    .jar { position:relative; width:57px; height:60px; background:linear-gradient(90deg,#bb7c25,#e9ae43 55%,#bd8327); border:3px solid #835925; border-radius:7px 7px 12px 12px; box-shadow:inset 6px 0 #ffffff24; }
+    .jar::before { content:""; position:absolute; top:-12px; left:-5px; width:61px; height:12px; border-radius:4px; background:#242424; }
+    .jar::after { content:"MIEL"; display:grid; place-items:center; position:absolute; inset:17px 6px 10px; font:bold 11px Georgia,serif; letter-spacing:.08em; background:#f6e8c8; border-radius:3px; }
+    .product h3 { margin:.1rem 0 0; font:1.35rem Georgia,serif; }
+    .origin { font-size:.86rem; color:var(--muted); margin:.2rem 0 .8rem; }
+    .price { font-size:1.2rem; font-weight:750; margin:.3rem 0 1rem; }
+    .price small { font-size:.75rem; font-weight:400; color:var(--muted); }
+    .quantity { display:flex; justify-content:space-between; align-items:center; gap:.4rem; }
+    .quantity-label { color:var(--muted); font-size:.88rem; }
+    .stepper { display:flex; align-items:center; border:1px solid #d1b98e; border-radius:9px; overflow:hidden; }
+    .stepper button { border:0; background:#f5ead6; color:var(--ink); width:38px; height:38px; font-size:1.25rem; cursor:pointer; }
+    .stepper button:hover { background:#ead6ac; }
+    .stepper button:focus-visible { outline:3px solid #a36b0f; outline-offset:-3px; }
+    .stepper output { min-width:35px; text-align:center; font-weight:700; }
+    .cart { padding:1.4rem; position:sticky; top:1rem; }
+    .cart p { margin:.7rem 0; }
+    .cart-row { display:flex; justify-content:space-between; gap:1rem; align-items:baseline; padding:.45rem 0; }
+    .cart-row strong { white-space:nowrap; }
+    .cart-row.total { font-size:1.18rem; padding-top:.9rem; border-top:1px solid var(--line); }
+    .discount { color:#30633c; }
+    .note { font-size:.86rem; color:var(--muted); }
+    .message { background:#f6ecd8; color:#59401d; padding:.8rem 1rem; border-radius:10px; font-size:.9rem; margin:.8rem 0; }
+    .cart button.checkout { display:block; width:100%; border:0; border-radius:9px; padding:.9rem; margin-top:1.2rem; font-weight:700; background:#d5c5a8; color:#544b3e; cursor:not-allowed; }
+    .cart .foot { margin:1rem 0 0; font-size:.83rem; color:var(--muted); }
+    footer { border-top:1px solid var(--line); padding:1.5rem; color:var(--muted); font-size:.85rem; text-align:center; }
+    @media(max-width:800px){ main{grid-template-columns:1fr;} .cart{position:static;} }
+    @media(max-width:480px){ .products{grid-template-columns:1fr;} header{padding:1.7rem 1rem;} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Apiculteur-récoltant · Ardèche</div>
+    <h1>Rucher de la Louve Noire</h1>
+    <p>Des miels de caractère, récoltés avec soin. Boutique en préparation.</p>
+  </header>
+  <main>
+    <section aria-labelledby="titre-miels">
+      <h2 id="titre-miels">Nos miels · 500 g</h2>
+      <div class="products" id="products"></div>
+    </section>
+    <aside class="cart" aria-labelledby="titre-panier">
+      <h2 id="titre-panier">Mon panier</h2>
+      <div id="cart-items" aria-live="polite">Votre panier est vide.</div>
+      <div class="cart-row"><span>Sous-total</span><strong id="subtotal">0,00 €</strong></div>
+      <div class="cart-row discount"><span>Remise cartons (12 pots : −5 %)</span><strong id="discount">0,00 €</strong></div>
+      <div class="cart-row total"><span>Total hors livraison</span><strong id="total">0,00 €</strong></div>
+      <div class="message" id="cart-message" role="status">Commande minimum : 2 pots de 500 g.</div>
+      <p class="note">Retrait local et livraison Colissimo : modalités à finaliser. Les frais de port ne sont pas encore inclus.</p>
+      <button type="button" class="checkout" disabled>Commande en cours d'activation</button>
+      <p class="foot">Aucun paiement ni aucune commande ne sont transmis depuis cette page de démonstration. Les e-mails de confirmation seront activés après vérification des paiements SumUp.</p>
+    </aside>
+  </main>
+  <footer>Rucher de la Louve Noire · Les Ollières-sur-Eyrieux · Miels de caractère</footer>
+  <script>
+    "use strict";
+    // Prix du panier de démonstration uniquement. Les futurs prix de paiement
+    // devront aussi être validés côté serveur, jamais depuis ce code.
+    const PRICE_CENTS = 850;
+    const PRODUCTS = [
+      { id: "printemps-500", name: "Printemps", origin: "Ardèche" },
+      { id: "chataignier-500", name: "Châtaignier", origin: "Ardèche" },
+      { id: "montagne-500", name: "Montagne", origin: "Ardèche" },
+      { id: "lavande-500", name: "Lavande", origin: "Drôme" }
+    ];
+    const quantities = Object.fromEntries(PRODUCTS.map(p => [p.id, 0]));
+    const euros = cents => (cents / 100).toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+    const $ = id => document.getElementById(id);
+    function changeQuantity(id, delta) {
+      quantities[id] = Math.min(48, Math.max(0, quantities[id] + delta));
+      $("qty-" + id).textContent = quantities[id];
+      renderCart();
+    }
+    function renderCart() {
+      const count = Object.values(quantities).reduce((a,b) => a+b, 0);
+      const subtotal = count * PRICE_CENTS;
+      // Une remise de 5 % par groupe complet de 12 pots, panachage autorisé.
+      const completeBoxes = Math.floor(count / 12);
+      const discount = completeBoxes * 12 * PRICE_CENTS * 5 / 100;
+      const chosen = PRODUCTS.filter(p => quantities[p.id] > 0);
+      $("cart-items").textContent = chosen.length
+        ? chosen.map(p => `${p.name} : ${quantities[p.id]} pot${quantities[p.id] > 1 ? "s" : ""}`).join(" · ")
+        : "Votre panier est vide.";
+      $("subtotal").textContent = euros(subtotal);
+      $("discount").textContent = "−" + euros(discount);
+      $("total").textContent = euros(subtotal - discount);
+      $("cart-message").textContent = count < 2
+        ? `Encore ${2-count} pot${2-count > 1 ? "s" : ""} à ajouter pour atteindre le minimum de commande.`
+        : `${count} pot${count > 1 ? "s" : ""} dans le panier. Le paiement n'est pas encore activé.`;
+    }
+    for (const p of PRODUCTS) {
+      const card = document.createElement("article");
+      card.className = "product";
+      card.innerHTML = `<div class="illustration" aria-hidden="true"><div class="jar"></div></div>
+        <h3>${p.name}</h3><p class="origin">Origine : ${p.origin} · Pot de 500 g</p>
+        <p class="price">${euros(PRICE_CENTS)} <small>/ pot</small></p>
+        <div class="quantity"><span class="quantity-label">Quantité</span>
+          <div class="stepper"><button type="button" aria-label="Retirer un pot de ${p.name}">−</button>
+            <output id="qty-${p.id}" aria-label="Quantité de ${p.name}">0</output>
+            <button type="button" aria-label="Ajouter un pot de ${p.name}">+</button></div></div>`;
+      const buttons = card.querySelectorAll("button");
+      buttons[0].addEventListener("click", () => changeQuantity(p.id, -1));
+      buttons[1].addEventListener("click", () => changeQuantity(p.id, 1));
+      $("products").append(card);
+    }
+    renderCart();
+  </script>
+</body>
+</html>
